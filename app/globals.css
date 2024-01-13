@@ -79,7 +79,13 @@ form button {
     @apply bg-white shadow-sm rounded-md my-4 relative overflow-hidden;
 }
 .card p {
-    @apply m-4 text-sm leading-6;
+    @apply m-4 text-base leading-6;
+}
+.card div p {
+    @apply text-sm
+}
+.card small {
+    @apply text-sm block p-4 text-center
 }
 
 /* pill styles */

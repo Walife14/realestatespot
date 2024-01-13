@@ -1,5 +1,6 @@
 import Image from "next/image";
-import House from './house.png'
+import Link from "next/link"
+import House from "./house.png"
 
 async function getListings() {
     const res = await fetch('http://localhost:4000/listings', {
@@ -11,7 +12,7 @@ async function getListings() {
     return res.json()
 }
 
-interface Listing {
+export interface Listing {
     id: string;
     road: string;
     post_code: string;
@@ -30,20 +31,22 @@ export default async function ListingList() {
         <>
             {listings.map((listing: Listing) => (
                 <div key={listing.id} className="card my-5">
-                    <Image
-                        src={House}
-                        alt={`Image of house at ${listing.road} in ${listing.city}`}
-                        placeholder='blur'
-                        quality={100}
-                    />
-                    <p>{listing.road}, {listing.city}, {listing.country}.</p>
-                    <div className="pill">
-                        £{listing.monthly} Monthly
-                    </div>
+                    <Link href={`/listings/${listing.id}`}>
+                        <Image
+                            src={House}
+                            alt={`Image of house at ${listing.road} in ${listing.city}`}
+                            placeholder="blur"
+                            quality={100}
+                        />
+                        <p>{listing.road}, {listing.city}, {listing.country}.</p>
+                        <div className="pill">
+                            £{listing.monthly} Monthly
+                        </div>
+                    </Link>
                 </div>
             ))}
             {listings.length === 0 && (
-                <p className="text-center">We can't finy any listings!</p>
+                <p className="text-center">We cannot find any listings!</p>
             )}
         </>
     )

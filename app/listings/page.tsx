@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import ListingList from "./ListingList";
+import Loading from "../loading";
 
 export default function page() {
   return (
@@ -10,7 +12,9 @@ export default function page() {
         </div>
       </nav>
 
-      <ListingList />
+      <Suspense fallback={<Loading />}>
+        <ListingList />
+      </Suspense>
     </main>
   )
 }
