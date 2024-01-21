@@ -7,7 +7,6 @@ import AuthForm from "../AuthForm";
 
 export default function Register() {
     const router = useRouter()
-
     const [error, setError] = useState('')
 
     const handleSubmit = async (e: any, email: string, password: string) => {

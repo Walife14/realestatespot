@@ -4,10 +4,12 @@ import './globals.css'
 
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 // components
 import Navbar from './components/Navbar'
 
+// font
 const raleway = Raleway({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
