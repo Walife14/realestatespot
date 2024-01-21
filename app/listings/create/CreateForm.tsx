@@ -24,18 +24,22 @@ export default function CreateForm() {
             city,
             country,
             body,
-            monthly,
-            user_email: 'dan@realestatespot.com'
+            monthly
         }
 
-        const res = await fetch('http://localhost:4000/listings', {
+        const res = await fetch('http://localhost:3000/api/listings', {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(listing)
         })
 
-        if (res.status === 201) {
-            router.refresh
+        const json = await res.json()
+
+        if (json.error) {
+            console.log(json.error.message)
+        }
+        if (json.data) {
+            router.refresh()
             router.push('/listings')
         }
     }
@@ -103,7 +107,7 @@ export default function CreateForm() {
                 disabled={isLoading}
             >
                 {isLoading && <span>Adding...</span>}
-                {!isLoading && <span>Add Ticket</span>}
+                {!isLoading && <span>Add Listing</span>}
             </button>
         </form>
     )

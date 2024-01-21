@@ -2,14 +2,20 @@ import Image from "next/image";
 import Link from "next/link"
 import House from "./house.png"
 
-async function getListings() {
-    const res = await fetch('http://localhost:4000/listings', {
-        next: {
-            revalidate: 0
-        }
-    })
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers"
 
-    return res.json()
+async function getListings() {
+    const supabase = createServerComponentClient({ cookies })
+
+    const { data, error } = await supabase.from('listings')
+        .select()
+
+    if (error) {
+        console.log(error)
+    }
+
+    return data!
 }
 
 export interface Listing {
@@ -25,7 +31,6 @@ export interface Listing {
 
 export default async function ListingList() {
     const listings: Listing[] = await getListings()
-    console.log(listings)
 
     return (
         <>

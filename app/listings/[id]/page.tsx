@@ -1,44 +1,41 @@
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers"
 import { notFound } from "next/navigation";
+
+import type { Listing } from "../ListingList";
+
+// images
 import Image from "next/image";
 import House from '../house.png'
-import type { Listing } from "../ListingList";
 
 export const dynamicParams = true
 
 export async function generateMetadata({ params }: { params: { id: string }}) {
-    const id = params.id
+    const supabase = createServerComponentClient({cookies })
 
-    const res = await fetch(`http://localhost:4000/listings/${id}`)
-
-    const listing: Listing = await res.json()
+    const { data: listing } = await supabase.from('listings')
+        .select()
+        .eq('id', params.id)
+        .single()
 
     return {
-        title: `Real Estate Spot | Property in ${listing.road}`
+        title: `Real Estate Spot | Property in ${listing?.road || 'Listing not found'}`
     }
-}
-
-export async function generateStaticParams() {
-    const res = await fetch('http://localhost:4000/listings')
-
-    const listings = await res.json()
-
-    return listings.map((listing: Listing) => ({
-        id: listing.id
-    }))
 }
 
 async function getListing(id: string) {
-    const res = await fetch('http://localhost:4000/listings/' + id, {
-        next: {
-            revalidate: 60
-        }
-    })
+    const supabase = createServerComponentClient({cookies })
 
-    if (!res.ok) {
+    const { data } = await supabase.from('listings')
+        .select()
+        .eq('id', id)
+        .single()
+    
+    if (!data) {
         notFound()
     }
 
-    return res.json()
+    return data
 }
 
 export default async function Listing({ params }: { params: { id: string}}) {
