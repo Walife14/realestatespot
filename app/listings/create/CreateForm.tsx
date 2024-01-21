@@ -35,7 +35,7 @@ export default function CreateForm() {
         })
 
         if (res.status === 201) {
-            router.refresh()
+            router.refresh
             router.push('/listings')
         }
     }

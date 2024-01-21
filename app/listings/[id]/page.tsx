@@ -5,6 +5,18 @@ import type { Listing } from "../ListingList";
 
 export const dynamicParams = true
 
+export async function generateMetadata({ params }: { params: { id: string }}) {
+    const id = params.id
+
+    const res = await fetch(`http://localhost:4000/listings/${id}`)
+
+    const listing: Listing = await res.json()
+
+    return {
+        title: `Real Estate Spot | Property in ${listing.road}`
+    }
+}
+
 export async function generateStaticParams() {
     const res = await fetch('http://localhost:4000/listings')
 

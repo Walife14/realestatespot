@@ -1,6 +1,11 @@
 import { Suspense } from "react";
+import { Metadata } from "next";
 import ListingList from "./ListingList";
 import Loading from "../loading";
+
+export const metadata: Metadata = {
+  title: 'Real Estate Spot | Listings',
+}
 
 export default function page() {
   return (
