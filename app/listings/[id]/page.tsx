@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 
 import type { Listing } from "../ListingList";
 
+// components
+import DeleteButton from "./DeleteButton";
+
 // images
 import Image from "next/image";
 import House from '../house.png'
@@ -41,10 +44,19 @@ async function getListing(id: string) {
 export default async function Listing({ params }: { params: { id: string}}) {
     const listing: Listing = await getListing(params.id)
 
+    const supabase = createServerComponentClient({ cookies })
+
+    const { data } = await supabase.auth.getSession()
+
     return (
         <main>
             <nav>
                 <h2>Listing details</h2>
+                <div className="ml-auto">
+                    {data.session?.user.email === listing.user_email && (
+                        <DeleteButton id={listing.id} />
+                    )}
+                </div>
             </nav>
             <div className="card">
                 {/* image */}

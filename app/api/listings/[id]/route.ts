@@ -1,22 +1,15 @@
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
+import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 
-// means it would re-run from scratch whenever a new request comes in
-export const dynamic = 'force-dynamic'
+export async function DELETE(_: any, { params }: any) {
+    const id = params.id
 
-export async function GET(_: any, { params }: any) {
-    const { id } = params
+    const supabase = createRouteHandlerClient({ cookies })
 
-    const res = await fetch(`http://localhost:4000/listings/${id}`)
+    const { error } = await supabase.from('listings')
+        .delete()
+        .eq('id', id)
 
-    if (!res.ok) {
-        return NextResponse.json({error: 'Cannot find listing'}, {
-            status: 404
-        })
-    }
-
-    const listing = await res.json()
-
-    return NextResponse.json(listing, {
-        status: 200
-    })
+    return NextResponse.json({ error })
 }
