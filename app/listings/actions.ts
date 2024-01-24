@@ -22,9 +22,25 @@ export async function addListing(formData: FormData) {
         });
     
     if (error) {
-        console.log(error)
+        throw new Error('Could not add a new listing')
     }
 
     revalidatePath('/listings')
     redirect('/listings')
 }
+
+export async function deleteListing(id: string) {
+    const supabase = createServerActionClient({ cookies })
+
+    // delete the data
+    const { error } = await supabase.from('listings')
+        .delete()
+        .eq('id', id)
+    
+    if (error) {
+        throw new Error('Could not delete the listing')
+    }
+
+    revalidatePath('/listings')
+    redirect('/listings')
+} 
