@@ -22,6 +22,7 @@ export default function Login() {
             setError(error.message)
         }
         if (!error) {
+            location.reload()
             router.push('/')
         }
     }

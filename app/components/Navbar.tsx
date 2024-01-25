@@ -12,13 +12,23 @@ export default function Navbar({ user }: any) {
                 <li>
                     <Link href="/listings">Listings</Link>
                 </li>
-                <li>
-                    {user && <span>Hello, {user.email}</span>}
-                </li>
-                <li>
-                    <LogoutButton />
-                </li>
+                {!user && (
+                    <li>
+                        <Link href="/auth/login">Login</Link>
+                    </li>  
+                )}
+                {!user && (
+                    <li>
+                        <Link href="/auth/register">Register</Link>
+                    </li>  
+                )}
             </ul>
+            {user && (
+                <div className="flex items-center justify-between mt-1">
+                    <span>Hello, {user.email}</span>
+                    <LogoutButton />
+                </div>
+            )}
         </nav>
     )
 }
