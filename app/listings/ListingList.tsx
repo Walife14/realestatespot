@@ -27,6 +27,13 @@ export interface Listing {
     body: string;
     user_email: string;
     monthly: number;
+    images: Image[];
+}
+
+export interface Image {
+    id: string;
+    property_id: string; // FK
+    url: string;
 }
 
 export default async function ListingList() {

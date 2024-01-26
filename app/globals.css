@@ -76,10 +76,13 @@ form button {
 
 /* card styles */
 .card {
-    @apply bg-white shadow-sm rounded-md my-4 relative overflow-hidden;
+    @apply bg-white shadow-sm rounded-md my-4 p-4 relative overflow-hidden;
+}
+.card h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
 }
 .card p {
-    @apply m-4 text-base leading-6;
+    @apply text-base leading-6;
 }
 .card div p {
     @apply text-sm

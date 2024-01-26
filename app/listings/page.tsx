@@ -17,7 +17,7 @@ export default function page() {
           <p><small>Currently available properties.</small></p>
         </div>
         <Link href="/listings/create" className="ml-auto">
-          <button className="btn-primary">New Listing</button>
+          <button className="btn-primary mx-auto mt-2">New Listing</button>
         </Link>
       </nav>
 

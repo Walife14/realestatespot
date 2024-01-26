@@ -16,11 +16,13 @@ export default function Home() {
 
       <div className="card">
         <h3>New website!</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, voluptas?</p>
+        <p>We're putting Real Estate Spot live for private landlords to advertise their 
+          properties! Real Estate Spot the platform you can advertise your own private property or view properties 
+          private landlords have on our platform.</p>
       </div>
       <div className="card">
-        <h3>Website live!</h3>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis quia provident doloribus vero. Accusantium, labore. Dignissimos veritatis laboriosam necessitatibus consequuntur!</p>
+        <h3>Image uploading on new listing!</h3>
+        <p>You can now add your property images to your listing!</p>
       </div>
     </main>
   )
