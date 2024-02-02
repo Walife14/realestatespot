@@ -27,17 +27,13 @@ export interface Listing {
     body: string;
     user_email: string;
     monthly: number;
-    images: Image[];
-}
-
-export interface Image {
-    id: string;
-    property_id: string; // FK
-    url: string;
+    images: string[];
 }
 
 export default async function ListingList() {
     const listings: Listing[] = await getListings()
+
+    console.log(listings)
 
     return (
         <>
@@ -45,9 +41,13 @@ export default async function ListingList() {
                 <div key={listing.id} className="card my-5">
                     <Link href={`/listings/${listing.id}`}>
                         <Image
-                            src={House}
+                            src={listing.images[0]}
+                            className="w-full"
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            priority={true}
                             alt={`Image of house at ${listing.road} in ${listing.city}`}
-                            placeholder="blur"
                             quality={100}
                         />
                         <p>{listing.road}, {listing.city}, {listing.country}.</p>

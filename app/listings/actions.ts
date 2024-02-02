@@ -16,9 +16,6 @@ export async function addListing(formData: FormData) {
         monthly: formData.get('monthly'),
     }
 
-    // get the images and save it to an array X
-    // const images = formData.getAll('image') X
-
     // store all image urls
     const imageUrls: string[] = []
 
@@ -29,36 +26,40 @@ export async function addListing(formData: FormData) {
     // store the provided images in the storage bucket
     for (const image of formData.getAll('image')) {
         if (image instanceof File) {
-            const { data, error } = await supabase.storage
+            const { data, error } = await supabase
+                .storage
                 .from('property-images')
                 .upload(`${Date.now()}_${image.name}`, image)
+            
             if (error) {
                 console.log("failed to upload images", error.message)
             } else {
-                const publicUrl = `${supabase.storage.from('property-images').getPublicUrl(data.path)}`
+                // getting the Url for the data
+                const res = supabase
+                    .storage
+                    .from('property-images')
+                    .getPublicUrl(data.path)
 
-                // push public url to array
-                imageUrls.push(publicUrl)
-                console.log(imageUrls)
+                imageUrls.push(res.data.publicUrl)
             }
         }
     }
 
     // insert the data
-    // const { error } = await supabase.from('listings')
-    //     .insert({
-    //         ...listing,
-    //         images: imageUrls,
-    //         user_email: session?.user.email
-    //     });
+    const { error } = await supabase.from('listings')
+        .insert({
+            ...listing,
+            images: imageUrls, // adding the images that we have added to the DB for this listing
+            user_email: session?.user.email
+        });
     
-    // if (error) {
-    //     console.log("failed to add listing to db: ", error.message)
-    //     // throw new Error('Could not add a new listing')
-    // }
+    if (error) {
+        console.log("failed to add listing to db: ", error.message)
+        // throw new Error('Could not add a new listing')
+    }
 
-    // revalidatePath('/listings')
-    // redirect('/listings')
+    revalidatePath('/listings')
+    redirect('/listings')
 }
 
 export async function deleteListing(id: string) {

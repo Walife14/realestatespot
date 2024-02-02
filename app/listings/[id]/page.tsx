@@ -8,8 +8,7 @@ import type { Listing } from "../ListingList";
 import DeleteButton from "./DeleteButton";
 
 // images
-import Image from "next/image";
-import House from '../house.png'
+import Carousel from "@/app/components/Carousel";
 
 export const dynamicParams = true
 
@@ -48,7 +47,7 @@ export default async function Listing({ params }: { params: { id: string}}) {
 
     const { data } = await supabase.auth.getSession()
 
-    // console.log(listing.images)
+    console.log(listing.images)
 
     return (
         <main>
@@ -60,14 +59,19 @@ export default async function Listing({ params }: { params: { id: string}}) {
                     )}
                 </div>
             </nav>
-            <div className="card">
-                {/* image */}
-                <Image
-                    src={House}
+            <div className="card relative">
+                {/* image >> Added carousel to allow viewing of multiple images */}
+                <Carousel images={listing.images} /> 
+                {/* <Image
+                    className="w-full"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    priority={true}
+                    src={listing.images[0]}
                     alt={`Image of house at ${listing.road} in ${listing.city}`}
-                    placeholder='blur'
                     quality={100}
-                />
+                /> */}
                 {/* address */}
                 <p>{listing.road}, {listing.city}, {listing.country}</p>
                 {/* body */}
