@@ -47,8 +47,6 @@ export default async function Listing({ params }: { params: { id: string}}) {
 
     const { data } = await supabase.auth.getSession()
 
-    console.log(listing.images)
-
     return (
         <main>
             <nav>

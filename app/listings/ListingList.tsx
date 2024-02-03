@@ -5,11 +5,21 @@ import House from "./house.png"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers"
 
-async function getListings() {
+async function getListings(email?: string) {
     const supabase = createServerComponentClient({ cookies })
 
-    const { data, error } = await supabase.from('listings')
-        .select()
+    // this is where I can add a specific listing to search for XX
+    // const { data, error } = await supabase.from('listings')
+    //     .select()
+    //     .eq('user_email', email)
+
+    let query = supabase.from('listings').select()
+
+    if (email) {
+        query.eq('user_email', email)
+    }
+
+    const { data, error } = await query
 
     if (error) {
         console.log(error)
@@ -30,10 +40,17 @@ export interface Listing {
     images: string[];
 }
 
-export default async function ListingList() {
-    const listings: Listing[] = await getListings()
+export default async function ListingList({ email }: { email?: string }) { // add type
+    
+    let listings: Listing[] = []
 
-    console.log(listings)
+    if (email) {
+        listings = await getListings(email)
+    } else {
+        listings = await getListings()
+    }
+
+    // console.log(listings)
 
     return (
         <>

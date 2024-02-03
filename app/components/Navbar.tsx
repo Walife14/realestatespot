@@ -22,6 +22,11 @@ export default function Navbar({ user }: any) {
                         <Link href="/auth/register">Register</Link>
                     </li>  
                 )}
+                {user && (
+                    <li>
+                        <Link href="/my-listings">My Listings</Link>
+                    </li>  
+                )}
             </ul>
             {user && (
                 <div className="flex items-center justify-between mt-1">
